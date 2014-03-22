@@ -1,7 +1,7 @@
 SublimeLinter-contrib-rustc
 ================================
 
-[![Build Status](https://khancdn.eu/badges.php?service=https%3A%2F%2Ftravis-ci.org%2FSublimeLinter%2FSublimeLinter-contrib-rustc.png%3Fbranch%3Dmaster)](https://travis-ci.org/SublimeLinter/SublimeLinter-contrib-rustc)
+[![Build Status](https://khancdn.eu/badges.php?service=https%3A%2F%2Ftravis-ci.org%2Foschwald%2FSublimeLinter-contrib-rustc.png%3Fbranch%3Dmaster)](https://travis-ci.org/oschwald/SublimeLinter-contrib-rustc)
 
 This linter plugin for [SublimeLinter][docs] provides an interface to [rustc](http://www.rust-lang.org/). It will be used with files that have the "rust" syntax.
 
@@ -37,12 +37,12 @@ If you would like to contribute enhancements or fixes, please do the following:
 1. Make a pull request.
 1. Be patient.  ;-)
 
-Please note that modications should follow these coding guidelines:
+Please note that modification should follow these coding guidelines:
 
 - Indent is 4 spaces.
 - Code should pass flake8 and pep257 linters.
-- Vertical whitespace helps readability, don’t be afraid to use it.
-- Please use descriptive variable names, no abbrevations unless they are very well known.
+- Vertical whitespace helps readability, don't be afraid to use it.
+- Please use descriptive variable names, no abbreviations unless they are very well known.
 
 Thank you for helping out!
 
