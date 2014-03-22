@@ -1,7 +1,7 @@
 SublimeLinter-contrib-rustc
 ================================
 
-[![Build Status](https://khancdn.eu/badges.php?service=https%3A%2F%2Ftravis-ci.org%2Foschwald%2FSublimeLinter-contrib-rustc.png%3Fbranch%3Dmaster)](https://travis-ci.org/oschwald/SublimeLinter-contrib-rustc)
+[![Build Status](https://travis-ci.org/oschwald/SublimeLinter-contrib-rustc.svg?branch=master)](https://travis-ci.org/oschwald/SublimeLinter-contrib-rustc)
 
 This linter plugin for [SublimeLinter][docs] provides an interface to [rustc](http://www.rust-lang.org/). It will be used with files that have the "rust" syntax.
 
