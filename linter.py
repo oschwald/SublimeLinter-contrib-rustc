@@ -18,7 +18,7 @@ class Rust(Linter):
     """Provides an interface to Rust."""
 
     syntax = 'rust'
-    cmd = 'rustc -c'
+    cmd = 'rustc'
     tempfile_suffix = 'rs'
 
     regex = (
