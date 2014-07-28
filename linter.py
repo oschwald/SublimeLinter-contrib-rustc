@@ -10,19 +10,43 @@
 
 """This module exports the Rustc plugin class."""
 
-from SublimeLinter.lint import Linter
+import os
+from SublimeLinter.lint import Linter, util
 
 
 class Rust(Linter):
 
     """Provides an interface to Rust."""
 
+    executable = 'rustc'
     syntax = 'rust'
-    cmd = 'rustc --no-trans'
     tempfile_suffix = 'rs'
 
     regex = (
-        r'^.+?:(?P<line>\d+):(?P<col>\d+):\s+\d+:\d+\s'
+        r'^(?P<file>.+?):(?P<line>\d+):(?P<col>\d+):\s+\d+:\d+\s'
         r'(?:(?P<error>(error|fatal error))|(?P<warning>warning)):\s+'
         r'(?P<message>.+)'
     )
+
+    def cmd(self):
+        """Return a list with the command to execute."""
+        config = util.find_file(
+            os.path.dirname(self.filename), 'Cargo.toml')
+
+        if config:
+            return ['cargo', 'build', '--manifest-path', config]
+
+        return ['rustc', '--no-trans']
+
+    def split_match(self, match):
+        """
+        Return the components of the match.
+
+        We override this because javac lints all referenced files,
+        and we only want errors from the linted file.
+        """
+        if match:
+            if not self.filename.endswith(match.group('file')):
+                match = None
+
+        return super().split_match(match)
