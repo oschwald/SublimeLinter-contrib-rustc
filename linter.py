@@ -20,7 +20,7 @@ class Rust(Linter):
 
     executable = 'rustc'
     syntax = 'rust'
-    tempfile_suffix = 'rs'
+    tempfile_suffix = '-'
 
     regex = (
         r'^(?P<file>.+?):(?P<line>\d+):(?P<col>\d+):\s+\d+:\d+\s'
@@ -42,11 +42,11 @@ class Rust(Linter):
         """
         Return the components of the match.
 
-        We override this because javac lints all referenced files,
+        We override this because Cargo lints all referenced files,
         and we only want errors from the linted file.
         """
         if match:
-            if not self.filename.endswith(match.group('file')):
+            if os.path.basename(self.filename) != os.path.basename(match.group('file')):
                 match = None
 
         return super().split_match(match)
