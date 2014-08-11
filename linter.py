@@ -18,6 +18,9 @@ class Rust(Linter):
 
     """Provides an interface to Rust."""
 
+    defaults = {
+        'use-cargo': False
+    }
     executable = 'rustc'
     syntax = 'rust'
     tempfile_suffix = '-'
@@ -30,11 +33,13 @@ class Rust(Linter):
 
     def cmd(self):
         """Return a list with the command to execute."""
-        config = util.find_file(
-            os.path.dirname(self.filename), 'Cargo.toml')
+        use_cargo = self.get_view_settings().get('use-cargo', False)
 
-        if config:
-            return ['cargo', 'build', '--manifest-path', config]
+        if use_cargo:
+            config = util.find_file(
+                os.path.dirname(self.filename), 'Cargo.toml')
+            if config:
+                return ['cargo', 'build', '--manifest-path', config]
 
         return ['rustc', '--no-trans']
 

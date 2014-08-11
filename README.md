@@ -28,6 +28,13 @@ To install via Package Control, do the following:
 ## Settings
 For general information on how SublimeLinter works with settings, please see [Settings][settings]. For information on generic linter settings, please see [Linter Settings][linter-settings].
 
+In addition to the standard SublimeLinter settings, SublimeLinter-contrib-rustc provides its own settings.
+
+|Setting|Description|
+|:------|:----------|
+|use-cargo|Use cargo to run rustc if a Cargo.toml is defined for your project (experimental)|
+
+
 ## Contributing
 If you would like to contribute enhancements or fixes, please do the following:
 
