@@ -21,9 +21,9 @@ class Rust(Linter):
     defaults = {
         'use-cargo': False
     }
-    executable = 'rustc'
+    cmd = ('rustc', '--no-trans')
     syntax = 'rust'
-    tempfile_suffix = '-'
+    tempfile_suffix = 'rs'
 
     regex = (
         r'^(?P<file>.+?):(?P<line>\d+):(?P<col>\d+):\s+\d+:\d+\s'
@@ -31,7 +31,7 @@ class Rust(Linter):
         r'(?P<message>.+)'
     )
 
-    def cmd(self):
+    def run(self, cmd, code):
         """Return a list with the command to execute."""
         use_cargo = self.get_view_settings().get('use-cargo', False)
 
@@ -39,9 +39,13 @@ class Rust(Linter):
             config = util.find_file(
                 os.path.dirname(self.filename), 'Cargo.toml')
             if config:
-                return ['cargo', 'build', '--manifest-path', config]
+                return util.communicate(
+                    ['cargo', 'build', '--manifest-path', config],
+                    None,
+                    output_stream=self.error_stream,
+                    env=self.env)
 
-        return ['rustc', '--no-trans']
+        return self.tmpfile(cmd, code, 'rs')
 
     def split_match(self, match):
         """
