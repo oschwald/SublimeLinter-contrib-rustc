@@ -45,7 +45,7 @@ class Rust(Linter):
                     output_stream=self.error_stream,
                     env=self.env)
 
-        return self.tmpfile(cmd, code, 'rs')
+        return self.tmpfile(cmd, code)
 
     def split_match(self, match):
         """
