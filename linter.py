@@ -23,7 +23,7 @@ class Rust(Linter):
     }
     cmd = ('rustc', '--no-trans')
     syntax = 'rust'
-    tempfile_suffix = 'rs'
+    tempfile_suffix = '-'
 
     regex = (
         r'^(?P<file>.+?):(?P<line>\d+):(?P<col>\d+):\s+\d+:\d+\s'
