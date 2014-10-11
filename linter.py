@@ -45,7 +45,8 @@ class Rust(Linter):
                     output_stream=self.error_stream,
                     env=self.env)
 
-        return self.tmpfile(cmd, code)
+        # Lint the file in-place to allow for module structure across files
+        return self.communicate(cmd, None)
 
     def split_match(self, match):
         """
