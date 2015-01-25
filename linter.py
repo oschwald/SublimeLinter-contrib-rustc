@@ -23,7 +23,7 @@ class Rust(Linter):
         'use-crate-root': False,
         'crate-root': None,
     }
-    cmd = ('rustc', '--no-trans')
+    cmd = ('rustc', '-Z no-trans')
     syntax = 'rust'
     tempfile_suffix = 'rs'
 
