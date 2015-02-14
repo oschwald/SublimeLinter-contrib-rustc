@@ -58,7 +58,8 @@ class Rust(Linter):
         linting in the rest of the file.
         """
         self.use_cargo = self.get_view_settings().get('use-cargo', False)
-        self.use_crate_root = self.get_view_settings().get('use-crate-root', False)
+        self.use_crate_root = self.get_view_settings().get(
+            'use-crate-root', False)
 
         if self.use_cargo:
             current_dir = os.path.dirname(self.filename)
@@ -67,11 +68,17 @@ class Rust(Linter):
             if self.cargo_config:
                 self.tempfile_suffix = '-'
 
-                return util.communicate(
-                    ['cargo', 'build', '--manifest-path', self.cargo_config],
-                    code=None,
-                    output_stream=self.error_stream,
-                    env=self.env)
+                old_cwd = os.getcwd()
+                os.chdir(os.path.dirname(self.cargo_config))
+                try:
+                    return util.communicate(
+                        ['cargo', 'build', '--manifest-path',
+                            self.cargo_config],
+                        code=None,
+                        output_stream=self.error_stream,
+                        env=self.env)
+                finally:
+                    os.chdir(old_cwd)
 
         if self.use_crate_root:
             self.crate_root = self.locate_crate_root()
@@ -108,6 +115,10 @@ class Rust(Linter):
         When working with a crate root, the working directory is the directory of the
         crate root source file.
         """
+        # if match:
+        #     if os.path.basename(self.filename) != os.path.basename(match.group('file')):
+        #         match = None
+
         matched_file = match.group('file') if match else None
 
         if matched_file:
@@ -163,9 +174,11 @@ class Rust(Linter):
         crate_root = self.get_view_settings().get('crate-root', None)
 
         if not crate_root:
-            crate_root = util.find_file(os.path.dirname(self.filename), 'main.rs')
+            crate_root = util.find_file(
+                os.path.dirname(self.filename), 'main.rs')
 
         if not crate_root:
-            crate_root = util.find_file(os.path.dirname(self.filename), 'lib.rs')
+            crate_root = util.find_file(
+                os.path.dirname(self.filename), 'lib.rs')
 
         return crate_root
