@@ -123,14 +123,12 @@ class Rust(Linter):
 
         if matched_file:
             if self.use_cargo:
-                working_dir = os.path.dirname(self.cargo_config)
-
-                if not self.is_current_file(working_dir, matched_file):
-                    match = None
-
+                path = self.cargo_config
             elif self.use_crate_root:
-                working_dir = os.path.dirname(self.crate_root)
+                path = self.crate_root
 
+            if path:
+                working_dir = os.path.dirname(path)
                 if not self.is_current_file(working_dir, matched_file):
                     match = None
 
