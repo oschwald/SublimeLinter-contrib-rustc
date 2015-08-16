@@ -23,7 +23,7 @@ class Rust(Linter):
         'use-crate-root': False,
         'crate-root': None,
     }
-    cmd = ('rustc', '-Z', 'no-trans')
+    cmd = ('rustc', '-Zno-trans')
     syntax = 'rust'
     tempfile_suffix = 'rs'
 
@@ -72,7 +72,7 @@ class Rust(Linter):
                 os.chdir(os.path.dirname(self.cargo_config))
                 try:
                     return util.communicate(
-                        ['cargo', 'build', '--manifest-path',
+                        ['cargo', 'rustc', '-Zno-trans', '--manifest-path',
                             self.cargo_config],
                         code=None,
                         output_stream=self.error_stream,
