@@ -33,7 +33,7 @@ In addition to the standard SublimeLinter settings, SublimeLinter-contrib-rustc 
 |Setting|Description|
 |:------|:----------|
 |use-cargo|Use `cargo` to run rustc if a Cargo.toml is defined for your project.|
-|use-cargo|Use `cargo check` to validate. Requires `cargo-check` and a Cargo.toml for your project.|
+|use-cargo-check|Use `cargo check` to validate. Requires `cargo-check` and a Cargo.toml for your project.|
 |use-crate-root|Run rustc against the crate root to allow for multi-file module structures|
 |crate-root|Override the filename of the crate root. Defaults are `main.rs` and `lib.rs`|
 
