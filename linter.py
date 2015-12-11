@@ -7,7 +7,6 @@
 #
 # License: MIT
 #
-
 """This module exports the Rustc plugin class."""
 
 import os
@@ -15,25 +14,24 @@ from SublimeLinter.lint import Linter, util, persist
 
 
 class Rust(Linter):
-
     """Provides an interface to Rust."""
 
     defaults = {
         'use-cargo': False,
+        'use-cargo-check': False,
         'use-crate-root': False,
         'crate-root': None,
     }
-    cmd = ('rustc', '-Zno-trans')
+    cmd = ['rustc', '-Zno-trans']
     syntax = 'rust'
     tempfile_suffix = 'rs'
 
-    regex = (
-        r'^(?P<file>.+?):(?P<line>\d+):(?P<col>\d+):\s+\d+:\d+\s'
-        r'(?:(?P<error>(error|fatal error))|(?P<warning>warning)):\s+'
-        r'(?P<message>.+)'
-    )
+    regex = (r'^(?P<file>.+?):(?P<line>\d+):(?P<col>\d+):\s+\d+:\d+\s'
+             r'(?:(?P<error>(error|fatal error))|(?P<warning>warning)):\s+'
+             r'(?P<message>.+)')
 
     use_cargo = False
+    use_cargo_check = False
     use_crate_root = False
     cargo_config = None
     crate_root = None
@@ -58,10 +56,14 @@ class Rust(Linter):
         linting in the rest of the file.
         """
         self.use_cargo = self.get_view_settings().get('use-cargo', False)
-        self.use_crate_root = self.get_view_settings().get(
-            'use-crate-root', False)
+        self.use_cargo_check = self.get_view_settings().get('use-cargo-check',
+                                                            False)
+        self.use_crate_root = self.get_view_settings().get('use-crate-root',
+                                                           False)
 
-        if self.use_cargo:
+        if self.use_cargo or self.use_cargo_check:
+            cargo_cmd = ['check'] if self.use_cargo_check else self.cmd
+
             current_dir = os.path.dirname(self.filename)
             self.cargo_config = util.find_file(current_dir, 'Cargo.toml')
 
@@ -72,8 +74,8 @@ class Rust(Linter):
                 os.chdir(os.path.dirname(self.cargo_config))
                 try:
                     return util.communicate(
-                        ['cargo', 'rustc', '-Zno-trans', '--manifest-path',
-                            self.cargo_config],
+                        ['cargo'] + cargo_cmd + ['--manifest-path',
+                                                 self.cargo_config],
                         code=None,
                         output_stream=self.error_stream,
                         env=self.env)
@@ -87,11 +89,10 @@ class Rust(Linter):
                 cmd.append(self.crate_root)
                 self.tempfile_suffix = '-'
 
-                return util.communicate(
-                    cmd,
-                    code=None,
-                    output_stream=self.error_stream,
-                    env=self.env)
+                return util.communicate(cmd,
+                                        code=None,
+                                        output_stream=self.error_stream,
+                                        env=self.env)
 
         self.tempfile_suffix = 'rs'
         return self.tmpfile(cmd, code)
@@ -122,7 +123,6 @@ class Rust(Linter):
         matched_file = match.group('file') if match else None
 
         if matched_file:
-            # path = False
             if self.use_cargo:
                 path = self.cargo_config
             elif self.use_crate_root:
@@ -160,7 +160,8 @@ class Rust(Linter):
         persist.debug('Matched filename: ', matched_file)
         persist.debug('Compared filename: ', abs_matched_file)
 
-        return os.path.realpath(self.filename) == os.path.realpath(abs_matched_file)
+        return os.path.realpath(self.filename) == os.path.realpath(
+            abs_matched_file)
 
     def locate_crate_root(self):
         """
