@@ -22,14 +22,16 @@ class Rust(Linter):
         'use-crate-root': False,
         'crate-root': None,
     }
-    cmd = ['rustc', '-Zno-trans']
+    cmd = ['rustc']
     syntax = 'rust'
     tempfile_suffix = 'rs'
 
-    regex = (r'^(?P<file>.+?):(?P<line>\d+):(?P<col>\d+):\s+\d+:\d+\s'
-             r'(?:(?P<error>(error|fatal error))|(?P<warning>warning)):\s+'
-             r'(?P<message>.+)')
+    regex = r'''(?xi)
+            ^(?:(?P<error>(error|fatal error))|(?P<warning>warning)).*?:\s+(?P<message>.+)\s*\r?
+            -->\s+(?P<file>.+?):(?P<line>\d+):(?P<col>\d+)$
+            '''
 
+    multiline = True
     use_cargo = False
     use_cargo_check = False
     use_crate_root = False
