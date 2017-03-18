@@ -9,7 +9,7 @@ This linter plugin for [SublimeLinter][docs] provides an interface to [rustc](ht
 SublimeLinter 3 must be installed in order to use this plugin. If SublimeLinter 3 is not installed, please follow the instructions [here][installation].
 
 ### Linter installation
-Before using this plugin, you must ensure that `rustc` is installed on your system. To install `rustc`, install Rust as directed in the [Rust tutorial](http://static.rust-lang.org/doc/master/tutorial.html).
+Before using this plugin, you must ensure that `rustc` is installed on your system. To install `rustc`, install Rust as directed in the [Rust tutorial](https://static.rust-lang.org/doc/master/book/getting-started.html).
 
 ### Linter configuration
 In order for `rustc` to be executed by SublimeLinter, you must ensure that its path is available to SublimeLinter. Before going any further, please read and follow the steps in ["Finding a linter executable"](http://sublimelinter.readthedocs.org/en/latest/troubleshooting.html#finding-a-linter-executable) through “Validating your PATH” in the documentation.
