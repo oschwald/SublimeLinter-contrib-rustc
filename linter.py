@@ -23,7 +23,7 @@ class Rust(Linter):
         'crate-root': None,
     }
     cmd = ['rustc']
-    syntax = 'rust'
+    syntax = ('rust', 'rustenhanced')
     tempfile_suffix = 'rs'
 
     regex = r'''(?xi)
